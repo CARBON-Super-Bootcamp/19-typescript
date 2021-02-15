@@ -1,6 +1,7 @@
-const { summary } = require('./performance');
+import { summary } from './performance';
+import { IncomingMessage, ServerResponse } from 'http';
 
-async function summarySvc(req, res) {
+export async function summarySvc(req: IncomingMessage, res: ServerResponse) {
   try {
     const sums = await summary();
     res.setHeader('content-type', 'application/json');
@@ -12,7 +13,3 @@ async function summarySvc(req, res) {
     return;
   }
 }
-
-module.exports = {
-  summarySvc,
-};

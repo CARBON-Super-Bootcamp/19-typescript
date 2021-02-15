@@ -5,6 +5,9 @@
     "allowJs": true,
     "target": "ES6",
     "moduleResolution": "Node",
+    "types": [
+      "webpack-env"
+    ]
   },
   "include": ["./**/*"]
 }
