@@ -1,20 +1,21 @@
-const { createServer } = require('http');
-const url = require('url');
-const { stdout } = require('process');
-const { summarySvc } = require('./performance.service');
-const agg = require('./performance.agg');
+import { createServer, IncomingMessage, ServerResponse } from 'http';
+import * as url from 'url';
+import { stdout } from 'process';
+import { summarySvc } from './performance.service';
+import * as agg from './performance.agg';
+import { config } from '../config';
 
 let server;
 
-function run(callback) {
-  server = createServer((req, res) => {
+export function run(callback) {
+  server = createServer((req: IncomingMessage, res: ServerResponse) => {
     // cors
     const aborted = cors(req, res);
     if (aborted) {
       return;
     }
 
-    function respond(statusCode, message) {
+    function respond(statusCode: number, message?: string) {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
@@ -50,13 +51,13 @@ function run(callback) {
   });
 
   // run server
-  const PORT = 7003;
+  const PORT = config?.server?.performancePort ?? 7003;
   server.listen(PORT, () => {
     stdout.write(`🚀 performance service listening on port ${PORT}\n`);
   });
 }
 
-function cors(req, res) {
+export function cors(req: IncomingMessage, res: ServerResponse) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -70,14 +71,8 @@ function cors(req, res) {
   }
 }
 
-function stop() {
+export function stop() {
   if (server) {
     server.close();
   }
 }
-
-module.exports = {
-  run,
-  stop,
-  cors,
-};

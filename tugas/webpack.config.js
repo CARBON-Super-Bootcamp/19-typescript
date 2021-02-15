@@ -15,12 +15,12 @@ module.exports = {
     contentBase: './webapp//www',
     port: 7000,
   },
-  plugins: [
-    new DotenvWebpackPlugin({
-      path: './.env',
-      safe: true,
-    }),
-  ],
+  // plugins: [
+  //   new DotenvWebpackPlugin({
+  //     path: './.env',
+  //     safe: true,
+  //   }),
+  // ],
   resolve: {
     extensions: ['.js', '.ts'],
   },

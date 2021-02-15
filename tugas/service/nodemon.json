@@ -1,0 +1,8 @@
+{
+  "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
+  "watch": ["service"],
+  "execMap": {
+    "performance": "npm run svc:start performance"
+  },
+  "ext": "ts"
+}

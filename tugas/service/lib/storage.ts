@@ -1,13 +1,13 @@
-const mime = require('mime-types');
-const { Client } = require('minio');
+import mime from 'mime-types';
+import { Client } from 'minio';
 
-const ERROR_REQUIRE_OBJECT_NAME = 'error wajib memasukan nama objek';
-const ERROR_FILE_NOT_FOUND = 'error file tidak ditemukan';
+export const ERROR_REQUIRE_OBJECT_NAME = 'error wajib memasukan nama objek';
+export const ERROR_FILE_NOT_FOUND = 'error file tidak ditemukan';
 
 let client;
 let bucketname;
 
-async function connect(_bucketname, options) {
+export async function connect(_bucketname, options) {
   client = new Client({
     ...options,
     useSSL: false,
@@ -23,7 +23,7 @@ async function connect(_bucketname, options) {
   }
 }
 
-function randomFileName(mimetype) {
+export function randomFileName(mimetype) {
   return (
     new Date().getTime() +
     '-' +
@@ -33,7 +33,7 @@ function randomFileName(mimetype) {
   );
 }
 
-function saveFile(file, mimetype) {
+export function saveFile(file, mimetype) {
   const objectName = randomFileName(mimetype);
   return new Promise((resolve, reject) => {
     client.putObject(bucketname, objectName, file, (err) => {
@@ -46,7 +46,7 @@ function saveFile(file, mimetype) {
   });
 }
 
-async function readFile(objectName) {
+export async function readFile(objectName) {
   if (!objectName) {
     throw ERROR_REQUIRE_OBJECT_NAME;
   }
@@ -60,11 +60,3 @@ async function readFile(objectName) {
   }
   return client.getObject(bucketname, objectName);
 }
-
-module.exports = {
-  saveFile,
-  readFile,
-  connect,
-  ERROR_REQUIRE_OBJECT_NAME,
-  ERROR_FILE_NOT_FOUND,
-};
