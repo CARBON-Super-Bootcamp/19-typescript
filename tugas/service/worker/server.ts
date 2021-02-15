@@ -1,15 +1,15 @@
-const { createServer } = require('http');
-const url = require('url');
-const { stdout } = require('process');
-const {
+import {createServer} from 'http';
+import * as url from 'url';
+import {stdout} from 'process';
+import {
   listSvc,
   registerSvc,
   removeSvc,
   infoSvc,
   getPhotoSvc,
-} = require('./worker.service');
+} from './worker.service';
 
-let server;
+let server:any;
 
 function run(callback) {
   server = createServer((req, res) => {
@@ -19,7 +19,7 @@ function run(callback) {
       return;
     }
 
-    function respond(statusCode, message) {
+    let respond=(statusCode:number, message?:string):any=> {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
@@ -104,8 +104,16 @@ function stop() {
   }
 }
 
-module.exports = {
+// module.exports = {
+//   run,
+//   stop,
+//   cors,
+// };
+
+const workerServer = {
   run,
   stop,
-  cors,
-};
+  cors
+}
+
+export default workerServer;

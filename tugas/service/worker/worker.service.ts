@@ -2,17 +2,17 @@ const Busboy = require('busboy');
 const url = require('url');
 const mime = require('mime-types');
 const { Writable } = require('stream');
-const {
+import {
   register,
   list,
   remove,
   info,
   ERROR_REGISTER_DATA_INVALID,
   ERROR_WORKER_NOT_FOUND,
-} = require('./worker');
-const { saveFile, readFile, ERROR_FILE_NOT_FOUND } = require('../lib/storage');
+} from './worker';
+import { saveFile, readFile, ERROR_FILE_NOT_FOUND } from '../lib/storage';
 
-function registerSvc(req, res) {
+export function registerSvc(req, res) {
   const busboy = new Busboy({ headers: req.headers });
 
   const data = {
@@ -84,7 +84,7 @@ function registerSvc(req, res) {
   req.pipe(busboy);
 }
 
-async function listSvc(req, res) {
+export async function listSvc(req, res) {
   try {
     const workers = await list();
     res.setHeader('content-type', 'application/json');
@@ -97,7 +97,7 @@ async function listSvc(req, res) {
   }
 }
 
-async function infoSvc(req, res) {
+export async function infoSvc(req, res) {
   const uri = url.parse(req.url, true);
   const id = uri.query['id'];
   if (!id) {
@@ -124,7 +124,7 @@ async function infoSvc(req, res) {
   }
 }
 
-async function removeSvc(req, res) {
+export async function removeSvc(req, res) {
   const uri = url.parse(req.url, true);
   const id = uri.query['id'];
   if (!id) {
@@ -152,7 +152,7 @@ async function removeSvc(req, res) {
   }
 }
 
-async function getPhotoSvc(req, res) {
+export async function getPhotoSvc(req, res) {
   const uri = url.parse(req.url, true);
   const objectName = uri.pathname.replace('/photo/', '');
   if (!objectName) {
@@ -179,10 +179,10 @@ async function getPhotoSvc(req, res) {
   }
 }
 
-module.exports = {
-  listSvc,
-  registerSvc,
-  infoSvc,
-  removeSvc,
-  getPhotoSvc,
-};
+// module.exports = {
+//   listSvc,
+//   registerSvc,
+//   infoSvc,
+//   removeSvc,
+//   getPhotoSvc,
+// };

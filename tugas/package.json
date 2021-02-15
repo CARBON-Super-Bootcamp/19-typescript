@@ -8,6 +8,7 @@
     "svc:start": "node .",
     "svc:dev": "nodemon .",
     "lint": "eslint .",
+    "service": "ts-node --project tsconfig.json service/main.ts",
     "web:build": "webpack --mode production",
     "web:dev": "webpack serve --open --mode development"
   },
