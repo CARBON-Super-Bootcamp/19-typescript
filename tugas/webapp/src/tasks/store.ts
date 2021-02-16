@@ -36,13 +36,13 @@ export const clearErrorAction = createAction(ActionType.CLEAR_ERROR);
 
 const reducer = createReducer(initialState, {
   [ActionType.ERROR]: error,
-  [ActionType.LOADING]: clearError,
-  [ActionType.ADDED]: loading,
+  [ActionType.LOADING]: loading,
+  [ActionType.ADDED]: added,
   [ActionType.DONE]: done,
-  [ActionType.CANCELED]: added,
-  [ActionType.TASKS_LOADED]: canceled,
+  [ActionType.CANCELED]: canceled,
+  [ActionType.TASKS_LOADED]: tasksLoaded,
   [ActionType.WORKERS_LOADED]: workersLoaded,
-  [ActionType.CLEAR_ERROR]: tasksLoaded,
+  [ActionType.CLEAR_ERROR]: clearError,
 });
 
 export const store$ = configureStore({
