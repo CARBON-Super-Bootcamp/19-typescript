@@ -6,6 +6,7 @@ import { TaskSchema } from'./tasks/task.model';
 import { WorkerSchema } from'./worker/worker.model';
 // const workerServer = require('./worker/server');
 import * as tasksServer from './tasks/server';
+import * as performanceServer from './performance/server';
 // const performanceServer = require('./performance/server');
 // const {config} = require('./config')
 import  { ConnectionOptions } from 'typeorm';
@@ -14,17 +15,17 @@ const pg_database: ConnectionOptions = {
   "type": "postgres",
   "host": "localhost",
   "port": 5432,
-  "username": "masdimya",
-  "password": "1234567890",
-  "database": "sanbercode2"
+  "username": "z3r",
+  "password": "Z3r",
+  "database": "taskmanager"
 }
 
 const minio_database: any = {
   "endPoint": "localhost",
   "port": 9000,
   "useSSL": false,
-  "accessKey": "minioadmin",
-  "secretKey": "minioadmin"
+  "accessKey": "admin",
+  "secretKey": "password"
 }
 async function init() {
   try {
@@ -69,9 +70,9 @@ async function onStop() {
 async function main(command) {
   switch (command) {
     case 'performance':
-      // await init();
-      // performanceServer.run(onStop);
-      // break;
+      await init();
+      performanceServer.run(onStop);
+      break;
     case 'task':
       await init();
       tasksServer.run(onStop);

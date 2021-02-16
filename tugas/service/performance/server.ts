@@ -3,7 +3,7 @@ import * as url from 'url';
 import { stdout } from 'process';
 import { summarySvc } from './performance.service';
 import * as agg from './performance.agg';
-import { config } from '../config';
+// import { config } from '../config';
 
 let server;
 
@@ -51,7 +51,8 @@ export function run(callback) {
   });
 
   // run server
-  const PORT = config?.server?.performancePort ?? 7003;
+  // const PORT = config?.server?.performancePort ?? 7003;
+  const PORT = 7003;
   server.listen(PORT, () => {
     stdout.write(`🚀 performance service listening on port ${PORT}\n`);
   });
