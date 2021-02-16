@@ -11,7 +11,7 @@ import {
 
 let server;
 
-function run(callback):void {
+function run(callback) { //:void, iyaah?
 
 
   server = createServer((req:IncomingMessage, res:ServerResponse) => {
@@ -21,14 +21,14 @@ function run(callback):void {
       return;
     }
 
-    let respond=(statusCode:number, message?):void=> {
+    let respond=(statusCode:number, message?:string)=> {//perlu void?
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
     }
 
     try {
-
+      
       const uri = url.parse(req.url, true);
       switch (uri.pathname) {
         case '/register':

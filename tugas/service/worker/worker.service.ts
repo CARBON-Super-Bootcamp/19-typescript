@@ -1,6 +1,6 @@
 import Busboy from 'busboy';
 import * as  url from 'url';
-import mime from 'mime-types';
+import * as mime from 'mime-types';
 import { Writable } from 'stream';
 import {
   register,
@@ -61,7 +61,7 @@ export function registerSvc(req:IncomingMessage, res:ServerResponse):void {
         break;
       default: {
         const noop = new Writable({
-          write(chunk, encding, callback) {
+          write(chunk, encding, callback):any {
             setImmediate(callback);
           },
         });
@@ -70,7 +70,7 @@ export function registerSvc(req:IncomingMessage, res:ServerResponse):void {
     }
   });
 
-  busboy.on('field', (fieldname, val) => {
+  busboy.on('field', (fieldname:string, val:string) => {
     if (['name', 'age', 'bio', 'address'].includes(fieldname)) {
       data[fieldname] = val;
     }
@@ -164,7 +164,7 @@ export async function getPhotoSvc(req:IncomingMessage, res:ServerResponse):Promi
   }
   try {
     const objectRead = await readFile(objectName);
-    res.setHeader('Content-Type', mime.lookup(objectName));
+    res.setHeader('Content-Type', mime.lookup(objectName)as string);
     res.statusCode = 200;
     objectRead.pipe(res);
   } catch (err) {

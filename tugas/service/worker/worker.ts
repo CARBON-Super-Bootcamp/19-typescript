@@ -13,7 +13,7 @@ export async function register(data:forWorker):Promise<Worker> {
   const worker = new Worker(
     null,
     data.name,
-    parseInt(data.age, 10),
+    data.age,//parseInt(data.age, 10),
     data.bio,
     data.address,
     data.photo

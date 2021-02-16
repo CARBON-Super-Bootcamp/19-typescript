@@ -14,11 +14,11 @@ export interface forWorker {
 export class Worker{
   id?: number;
   name:string;
-  age:number|string;
+  age:any
   bio:string;
   address:string;
   photo:string;
-  constructor(id:number, name:string, age:string|number, bio:string, address:string, photo:string) {
+  constructor(id:number, name:string, age:any, bio:string, address:string, photo:string) {
     this.id = id;
     this.name = name;
     this.age = age;
