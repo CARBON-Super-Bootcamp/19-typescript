@@ -1,17 +1,18 @@
-const { createServer } = require('http');
-const url = require('url');
-const { stdout } = require('process');
-const {
+import { createServer, IncomingMessage, ServerResponse } from 'http';
+import * as url from 'url';
+import { stdout } from 'process';
+import {
   addSvc,
   cancelSvc,
   doneSvc,
   listSvc,
   getAttachmentSvc,
-} = require('./task.service');
+} from './task.service';
+import {config} from '../config';
 
 let server;
 
-function run(callback) {
+export function run(callback) {
   server = createServer((req, res) => {
     // cors
     const aborted = cors(req, res);
@@ -19,9 +20,9 @@ function run(callback) {
       return;
     }
 
-    function respond(statusCode, message) {
+    function respond(statusCode:number = 200, message:string = ''): void {
       res.statusCode = statusCode || 200;
-      res.write(message || '');
+      res.write(message);
       res.end();
     }
 
@@ -75,13 +76,13 @@ function run(callback) {
   });
 
   // run server
-  const PORT = 7002;
+  const PORT = config.server.taskPort;
   server.listen(PORT, () => {
     stdout.write(`🚀 task service listening on port ${PORT}\n`);
   });
 }
 
-function cors(req, res) {
+export function cors(req:IncomingMessage, res: ServerResponse) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -98,14 +99,8 @@ function cors(req, res) {
   }
 }
 
-function stop() {
+export function stop(): void {
   if (server) {
     server.close();
   }
 }
-
-module.exports = {
-  run,
-  stop,
-  cors,
-};

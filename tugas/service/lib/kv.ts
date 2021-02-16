@@ -1,10 +1,10 @@
-const redis = require('redis');
-const { promisify } = require('util');
+import * as redis from 'redis';
+import { promisify } from 'util';
 
-let client;
+let client: redis.RedisClient;
 
-function connect(options) {
-  return new Promise((resolve, reject) => {
+export function connect(options?: any): Promise<unknown> {
+  return new Promise<void | Error>((resolve, reject) => {
     client = redis.createClient(options);
     client.on('connect', () => {
       resolve();
@@ -15,23 +15,23 @@ function connect(options) {
   });
 }
 
-function save(db, data) {
+export function save(db: string, data: number): Promise<void> {
   const setAsync = promisify(client.set).bind(client);
   return setAsync(db, data);
 }
 
-async function read(db) {
+export async function read(db: string): Promise<string> {
   const getAsync = promisify(client.get).bind(client);
   const val = await getAsync(db);
   return JSON.parse(val);
 }
 
-function drop(db) {
+export function drop(db: string): Promise<string> {
   const delAsync = promisify(client.del).bind(client);
   return delAsync(db);
 }
 
-function close() {
+export function close() {
   if (!client) {
     return;
   }
@@ -39,11 +39,3 @@ function close() {
     client.end(true);
   }
 }
-
-module.exports = {
-  connect,
-  save,
-  read,
-  close,
-  drop,
-};
