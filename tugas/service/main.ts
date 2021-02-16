@@ -3,7 +3,7 @@ import * as storage from './lib/storage';
 // const kv = require('./lib/kv');
 // const bus = require('./lib/bus');
 import { TaskSchema } from'./tasks/task.model';
-// import { WorkerSchema } = require('./worker/worker.model');
+import { WorkerSchema } from'./worker/worker.model';
 // const workerServer = require('./worker/server');
 import * as tasksServer from './tasks/server';
 // const performanceServer = require('./performance/server');
@@ -18,21 +18,29 @@ const pg_database: ConnectionOptions = {
   "password": "1234567890",
   "database": "sanbercode2"
 }
+
+const minio_database: any = {
+  "endPoint": "localhost",
+  "port": 9000,
+  "useSSL": false,
+  "accessKey": "minioadmin",
+  "secretKey": "minioadmin"
+}
 async function init() {
   try {
     console.log('connect to database');
-    await orm.connect([TaskSchema], pg_database);
+    await orm.connect([WorkerSchema,TaskSchema], pg_database);
     console.log('database connected');
   } catch (err) {
-    console.error('database connection failed');
+    console.error('database connection failed',err);
     process.exit(1);
   }
   try {
     console.log('connect to object storage');
-    await storage.connect('task-manager', config.minio_database);
+    await storage.connect('task-manager', minio_database);
     console.log('object storage connected');
   } catch (err) {
-    console.error('object storage connection failed');
+    console.error('object storage connection failed',err);
     process.exit(1);
   }
   // try {
