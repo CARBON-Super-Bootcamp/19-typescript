@@ -7,29 +7,14 @@ import { WorkerSchema } from'./worker/worker.model';
 // const workerServer = require('./worker/server');
 import * as tasksServer from './tasks/server';
 // const performanceServer = require('./performance/server');
-// const {config} = require('./config')
+const {config} = require('./config')
 import  { ConnectionOptions } from 'typeorm';
 
-const pg_database: ConnectionOptions = {
-  "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "masdimya",
-  "password": "1234567890",
-  "database": "sanbercode2"
-}
 
-const minio_database: any = {
-  "endPoint": "localhost",
-  "port": 9000,
-  "useSSL": false,
-  "accessKey": "minioadmin",
-  "secretKey": "minioadmin"
-}
 async function init() {
   try {
     console.log('connect to database');
-    await orm.connect([WorkerSchema,TaskSchema], pg_database);
+    await orm.connect([WorkerSchema,TaskSchema], config.pg_database);
     console.log('database connected');
   } catch (err) {
     console.error('database connection failed',err);
@@ -37,7 +22,7 @@ async function init() {
   }
   try {
     console.log('connect to object storage');
-    await storage.connect('task-manager', minio_database);
+    await storage.connect('task-manager', config.minio_database);
     console.log('object storage connected');
   } catch (err) {
     console.error('object storage connection failed',err);

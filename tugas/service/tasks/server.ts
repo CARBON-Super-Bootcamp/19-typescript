@@ -8,7 +8,7 @@ import {
   listSvc,
   getAttachmentSvc,
 } from './task.service';
-// import {config} from '../config';
+import {config} from '../config';
 
 let server;
 
@@ -76,7 +76,7 @@ export function run(callback) {
   });
 
   // run server
-  const PORT = 7002;
+  const PORT = config.server.taskPort;
   server.listen(PORT, () => {
     stdout.write(`🚀 task service listening on port ${PORT}\n`);
   });
