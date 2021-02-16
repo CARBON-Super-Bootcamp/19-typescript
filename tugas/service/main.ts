@@ -1,15 +1,13 @@
 import * as orm from './lib/orm';
 import * as storage from './lib/storage';
-// const kv = require('./lib/kv');
-// const bus = require('./lib/bus');
+import * as kv from './lib/kv';
+import * as bus from './lib/bus';
 import { TaskSchema } from'./tasks/task.model';
 import { WorkerSchema } from'./worker/worker.model';
 // const workerServer = require('./worker/server');
 import * as tasksServer from './tasks/server';
 import * as performanceServer from './performance/server';
-// const performanceServer = require('./performance/server');
 const {config} = require('./config')
-import  { ConnectionOptions } from 'typeorm';
 
 async function init() {
   try {
@@ -28,27 +26,27 @@ async function init() {
     console.error('object storage connection failed',err);
     process.exit(1);
   }
-  // try {
-  //   console.log('connect to message bus');
-  //   await bus.connect();
-  //   console.log('message bus connected');
-  // } catch (err) {
-  //   console.error('message bus connection failed');
-  //   process.exit(1);
-  // }
-  // try {
-  //   console.log('connect to key value store');
-  //   await kv.connect();
-  //   console.log('key value store connected');
-  // } catch (err) {
-  //   console.error('key value store connection failed');
-  //   process.exit(1);
-  // }
+  try {
+    console.log('connect to message bus');
+    await bus.connect();
+    console.log('message bus connected');
+  } catch (err) {
+    console.error('message bus connection failed');
+    process.exit(1);
+  }
+  try {
+    console.log('connect to key value store');
+    await kv.connect();
+    console.log('key value store connected');
+  } catch (err) {
+    console.error('key value store connection failed');
+    process.exit(1);
+  }
 }
 
 async function onStop() {
-  // bus.close();
-  // kv.close();
+  bus.close();
+  kv.close();
 }
 
 async function main(command) {
