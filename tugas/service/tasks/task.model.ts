@@ -1,7 +1,36 @@
-const { EntitySchema } = require('typeorm');
+import { EntitySchema } from 'typeorm';
 
-class Task {
-  constructor(id, job, assignee, done, cancelled, attachment, addedAt) {
+
+export interface TaskEntity {
+  id:number;
+  job:string;
+  done:boolean;
+  cancelled:boolean;
+  addedAt:string;
+  attachment:string;
+  assignee:Assignee;
+}
+
+
+interface Assignee {
+  id:number
+  name: string;
+  age: number;
+  bio: string;
+  address: string;
+  photo: string;
+}
+
+export class Task {
+  public id:number;
+  public job:string;
+  public done:boolean;
+  public cancelled:boolean;
+  public addedAt:string;
+  public attachment:string;
+  public assignee:number;
+
+  constructor(id:number, job:string, assignee:number, done:boolean, cancelled:boolean, attachment:string, addedAt:string) {
     this.id = id;
     this.job = job;
     this.done = done;
@@ -12,7 +41,7 @@ class Task {
   }
 }
 
-const TaskSchema = new EntitySchema({
+export const TaskSchema = new EntitySchema<TaskEntity>({
   name: 'Task',
   tableName: 'tasks',
   target: Task,
@@ -54,7 +83,3 @@ const TaskSchema = new EntitySchema({
   },
 });
 
-module.exports = {
-  Task,
-  TaskSchema,
-};
