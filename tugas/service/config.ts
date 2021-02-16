@@ -1,6 +1,6 @@
-const rc = require('rc');
+import * as rc from 'rc';
 
-const defaultConfig = {
+export const defaultConfig = {
   pg_database: {
     type: 'postgres',
     host: 'localhost',
@@ -23,8 +23,4 @@ const defaultConfig = {
   },
 };
 
-const config = rc('tm', defaultConfig);
-
-module.exports = {
-  config,
-};
+  export const config = rc('tm', defaultConfig);

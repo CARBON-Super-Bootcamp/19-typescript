@@ -1,12 +1,12 @@
 {
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "outDir": "./dist",
-    "sourceMap": true,
-    "allowJs": true,
-    "target": "ES6",
-    "moduleResolution": "Node",
-    
-  },
-  "include": ["./**/*"]
+    "compilerOptions": {
+        "outDir": "./dist",
+        "sourceMap": true,
+        "allowJs": true,
+        "target": "ES6",
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true
+    },
+    "include": ["./**/*"]
 }

@@ -9,7 +9,9 @@
     "svc:dev": "nodemon .",
     "lint": "eslint .",
     "web:build": "webpack --mode production",
-    "web:dev": "webpack serve --open --mode development"
+    "web:dev": "webpack serve --open --mode development",
+    "service": "ts-node --project service/tsconfig.json service/main.ts",
+    "service:dev": "nodemon --config service/nodemon.json"
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +32,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
+    "@types/rc": "^1.1.0",
     "busboy": "^0.3.1",
     "mariadb": "^2.5.2",
     "mime-types": "^2.1.28",
