@@ -1,11 +1,11 @@
 import {getConnection} from 'typeorm';
-import {Worker} from './worker.model';
+import {Worker,forWorker} from './worker.model';
 import bus from '../lib/bus';
 
 export const ERROR_REGISTER_DATA_INVALID = 'data registrasi pekerja tidak lengkap';
 export const ERROR_WORKER_NOT_FOUND = 'pekerja tidak ditemukan';
 
-export async function register(data) {
+export async function register(data:forWorker):Promise<Worker> {
   if (!data.name || !data.age || !data.bio || !data.address || !data.photo) {
     throw ERROR_REGISTER_DATA_INVALID;
   }
@@ -23,12 +23,12 @@ export async function register(data) {
   return worker;
 }
 
-export function list() {
+export function list():Promise<unknown> {
   const workerRepo = getConnection().getRepository('Worker');
   return workerRepo.find();
 }
 
-export async function info(id) {
+export async function info(id:string|string[]):Promise<unknown> {
   const workerRepo = getConnection().getRepository('Worker');
   const worker = await workerRepo.findOne(id);
   if (!worker) {
@@ -37,7 +37,7 @@ export async function info(id) {
   return worker;
 }
 
-export async function remove(id) {
+export async function remove(id:string|string[]):Promise<unknown>  {
   const workerRepo = getConnection().getRepository('Worker');
   const worker = await workerRepo.findOne(id);
   if (!worker) {
@@ -47,12 +47,3 @@ export async function remove(id) {
   bus.publish('worker.removed', worker);
   return worker;
 }
-
-// module.exports = {
-//   register,
-//   list,
-//   remove,
-//   info,
-//   ERROR_REGISTER_DATA_INVALID,
-//   ERROR_WORKER_NOT_FOUND,
-// };

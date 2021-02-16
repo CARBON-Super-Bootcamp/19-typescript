@@ -1,4 +1,4 @@
-import {createServer} from 'http';
+import {createServer, IncomingMessage,ServerResponse} from 'http';
 import * as url from 'url';
 import {stdout} from 'process';
 import {
@@ -9,23 +9,26 @@ import {
   getPhotoSvc,
 } from './worker.service';
 
-let server:any;
+let server;
 
-function run(callback) {
-  server = createServer((req, res) => {
+function run(callback):void {
+
+
+  server = createServer((req:IncomingMessage, res:ServerResponse) => {
     // cors
     const aborted = cors(req, res);
     if (aborted) {
       return;
     }
 
-    let respond=(statusCode:number, message?:string):any=> {
+    let respond=(statusCode:number, message?):void=> {
       res.statusCode = statusCode || 200;
       res.write(message || '');
       res.end();
     }
 
     try {
+
       const uri = url.parse(req.url, true);
       switch (uri.pathname) {
         case '/register':
@@ -57,6 +60,7 @@ function run(callback) {
           }
           break;
         default:
+        
           if (/^\/photo\/\w+/.test(uri.pathname)) {
             return getPhotoSvc(req, res);
           }
@@ -81,7 +85,7 @@ function run(callback) {
   });
 }
 
-function cors(req, res) {
+function cors(req:IncomingMessage, res:ServerResponse) {
   // handle preflight request
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Request-Method', '*');
@@ -98,17 +102,12 @@ function cors(req, res) {
   }
 }
 
-function stop() {
+function stop():void {
   if (server) {
     server.close();
   }
 }
 
-// module.exports = {
-//   run,
-//   stop,
-//   cors,
-// };
 
 const workerServer = {
   run,

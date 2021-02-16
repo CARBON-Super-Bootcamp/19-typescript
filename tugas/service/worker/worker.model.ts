@@ -1,9 +1,9 @@
 import { EntitySchema } from 'typeorm';
 
 export interface forWorker {
-  id: number;
+  id?: number;
   name:string;
-  age:Number;
+  age:number|string;
   bio:string;
   address:string;
   photo:string;
@@ -12,13 +12,13 @@ export interface forWorker {
 
 //let Worker:forWorker[];
 export class Worker{
-  id: Number;
+  id?: number;
   name:string;
-  age:Number;
+  age:number|string;
   bio:string;
   address:string;
   photo:string;
-  constructor(id:Number, name:string, age:number, bio:string, address:string, photo:string) {
+  constructor(id:number, name:string, age:string|number, bio:string, address:string, photo:string) {
     this.id = id;
     this.name = name;
     this.age = age;
