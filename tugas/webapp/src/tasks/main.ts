@@ -24,7 +24,7 @@ if (form && job && assignee && attachment) {
     if (
       !job.value ||
       !assignee.options[assignee.selectedIndex] ||
-      !attachment?.files?[0] : 'null'
+      !attachment?.files
     ) {
       store$.dispatch(errorAction('form isian tidak lengkap!'));
       return;
@@ -35,7 +35,7 @@ if (form && job && assignee && attachment) {
       add({
         job: job.value,
         assignee_id: assignee.options[assignee.selectedIndex].value,
-        attachment: attachment?.files?[0] : 'null',
+        attachment: attachment?.files[0],
       })
     );
   
